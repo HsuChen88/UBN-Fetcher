@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>統一編號驗證工具</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; color: #0f3460; }
+    .subtitle { font-size: 0.9rem; color: #666; margin-bottom: 2rem; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #333; }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 2px dashed #bbb;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      color: #888;
+      font-size: 0.95rem;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #0f3460; background: #f0f4ff; color: #0f3460;
+    }
+    .drop-zone input[type="file"] { display: none; }
+    .drop-zone .icon { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+    .file-info { margin-top: 0.75rem; font-size: 0.875rem; color: #0f3460; font-weight: 500; min-height: 1.2em; }
+
+    /* Buttons */
+    .btn-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    .btn {
+      flex: 1;
+      min-width: 160px;
+      padding: 0.85rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn .sub { font-size: 0.7rem; font-weight: 400; opacity: 0.85; }
+
+    .btn-local { background: #16213e; color: #fff; }
+    .btn-fia   { background: #0f3460; color: #fff; }
+    .btn-gcis  { background: #533483; color: #fff; }
+    .btn-all   { background: linear-gradient(135deg, #0f3460, #533483); color: #fff; }
+
+    /* Status */
+    .status-bar {
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      color: #555;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2.5rem;
+    }
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid #ddd;
+      border-top-color: #0f3460;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Results */
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .results-header h2 { font-size: 1rem; font-weight: 600; color: #333; }
+
+    .summary-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pill { padding: 0.2rem 0.65rem; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .pill-total { background: #e8eaf6; color: #283593; }
+    .pill-pass  { background: #e8f5e9; color: #2e7d32; }
+    .pill-fail  { background: #fce4ec; color: #c62828; }
+    .pill-error { background: #fff3e0; color: #e65100; }
+
+    .mode-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .mode-local { background: #e8eaf6; color: #283593; }
+    .mode-fia   { background: #e3f2fd; color: #0d47a1; }
+    .mode-gcis  { background: #f3e5f5; color: #6a1b9a; }
+    .mode-all   { background: linear-gradient(90deg,#e3f2fd,#f3e5f5); color: #0d47a1; }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    thead th {
+      background: #f7f8fc;
+      padding: 0.65rem 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: #555;
+      border-bottom: 2px solid #e0e0e0;
+      white-space: nowrap;
+    }
+    tbody tr:hover { background: #fafbff; }
+    tbody td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-valid   { background: #e8f5e9; color: #2e7d32; }
+    .badge-invalid { background: #fce4ec; color: #c62828; }
+    .badge-error   { background: #fff3e0; color: #e65100; }
+    .badge-na      { background: #f5f5f5; color: #999; }
+
+    .ban-code { font-family: monospace; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em; }
+    .company-name { font-weight: 500; }
+    .meta { font-size: 0.78rem; color: #888; margin-top: 0.2rem; }
+
+    .empty-state { text-align: center; padding: 3rem 1rem; color: #aaa; font-size: 0.95rem; }
+
+    /* 分隔線 for all mode */
+    thead th.sep { border-left: 2px solid #d0d0e0; }
+    tbody td.sep { border-left: 2px solid #f0f0f8; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>統一編號驗證工具</h1>
+  <p class="subtitle">上傳 CSV 檔案，透過三種方式驗證台灣統一編號的合法性</p>
+
+  <div class="card">
+    <h2>① 上傳 CSV 檔案</h2>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="csvFile" accept=".csv" />
+      <span class="icon">📄</span>
+      <div>點擊或拖曳 CSV 檔案至此處</div>
+      <div style="font-size:0.8rem;margin-top:0.4rem">第一欄為統一編號，首行為標題列（將自動忽略）</div>
+    </div>
+    <div class="file-info" id="fileInfo"></div>
+  </div>
+
+  <div class="card">
+    <h2>② 選擇驗證方式</h2>
+    <div class="btn-group">
+      <button class="btn btn-local" id="btnLocal" disabled onclick="runValidation('local')">
+        本地檢查碼驗證
+        <span class="sub">無需網路・演算法驗算</span>
+      </button>
+      <button class="btn btn-fia" id="btnFia" disabled onclick="runValidation('fia')">
+        財政部 FIA API
+        <span class="sub">財政部財政資訊中心</span>
+      </button>
+      <button class="btn btn-gcis" id="btnGcis" disabled onclick="runValidation('gcis')">
+        商工 GCIS API
+        <span class="sub">經濟部商工行政資料</span>
+      </button>
+      <button class="btn btn-all" id="btnAll" disabled onclick="runValidation('all')">
+        全部查詢
+        <span class="sub">同時執行三種驗證</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="status-bar" id="statusBar">
+    <span>請先上傳 CSV 檔案，再選擇驗證方式。</span>
+  </div>
+
+  <div class="card">
+    <div class="results-header">
+      <h2>查詢結果</h2>
+      <div class="summary-pills" id="summaryPills"></div>
+    </div>
+    <div id="modeLabel"></div>
+    <div class="table-wrap">
+      <div class="empty-state" id="emptyState">尚無查詢結果</div>
+      <table id="resultsTable" style="display:none">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CSV 解析 ──────────────────────────────────
+function parseCSV(text) {
+  return text.trim().split(/\r?\n/)
+    .slice(1)
+    .map(l => l.trim().replace(/"/g, '').split(',')[0].trim())
+    .filter(l => l.length > 0);
+}
+
+// ── 本地檢查碼 ────────────────────────────────
+function validateChecksum(ban) {
+  if (!/^\d{8}$/.test(ban)) return false;
+  const w = [1, 2, 1, 2, 1, 2, 4, 1];
+  const d = ban.split('').map(Number);
+  let s = 0;
+  for (let i = 0; i < 8; i++) {
+    const p = d[i] * w[i];
+    s += Math.floor(p / 10) + (p % 10);
+  }
+  return s % 5 === 0 || (d[6] === 7 && (s + 1) % 5 === 0);
+}
+
+// ── API（透過本地 proxy） ──────────────────────
+async function checkByFIA(ban) {
+  const res = await fetch(`/api/fia/${ban}`);
+  if (res.status === 404) return { exists: false, data: null };
+  if (!res.ok) throw new Error(`FIA HTTP ${res.status}`);
+  const d = await res.json();
+  return {
+    exists: !!d?.businessNm,
+    data: d ? {
+      name:      d.businessNm,
+      type:      d.businessType,
+      address:   d.businessAddress,
+      setupDate: d.businessSetupDate,
+      industry:  d.industryNm,
+    } : null,
+  };
+}
+
+async function checkByGCIS(ban) {
+  const res = await fetch(`/api/gcis?ban=${ban}`);
+  if (!res.ok) throw new Error(`GCIS HTTP ${res.status}`);
+  const data = await res.json();
+  const registeredTypes = data.filter(i => i.exist === 'Y').map(i => i.TYPE);
+  return { exists: registeredTypes.length > 0, registeredTypes };
+}
+
+// ── 批次控制 ──────────────────────────────────
+async function processBatch(items, fn, { concurrency = 5, delayMs = 200, onProgress } = {}) {
+  const results = [];
+  for (let i = 0; i < items.length; i += concurrency) {
+    const chunk = items.slice(i, i + concurrency);
+    const settled = await Promise.allSettled(chunk.map(fn));
+    for (const r of settled) {
+      results.push(r.status === 'fulfilled'
+        ? { ok: true, ...r.value }
+        : { ok: false, error: r.reason?.message ?? '未知錯誤' });
+    }
+    if (onProgress) onProgress(Math.min(i + concurrency, items.length), items.length);
+    if (i + concurrency < items.length) await new Promise(r => setTimeout(r, delayMs));
+  }
+  return results;
+}
+
+// ── 狀態與資料 ────────────────────────────────
+let ubns = [];
+let running = false;
+
+function setStatus(msg, loading = false) {
+  document.getElementById('statusBar').innerHTML = loading
+    ? `<div class="spinner"></div><span>${msg}</span>`
+    : `<span>${msg}</span>`;
+}
+
+function setBtnsDisabled(disabled) {
+  ['btnLocal','btnFia','btnGcis','btnAll'].forEach(id => {
+    document.getElementById(id).disabled = disabled;
+  });
+}
+
+// ── 渲染結果 ──────────────────────────────────
+function renderResults(mode, rows) {
+  const modeInfo = {
+    local: { label: '本地檢查碼',       cls: 'mode-local' },
+    fia:   { label: '財政部 FIA API',   cls: 'mode-fia' },
+    gcis:  { label: '商工 GCIS API',    cls: 'mode-gcis' },
+    all:   { label: '全部查詢（三合一）', cls: 'mode-all' },
+  }[mode];
+
+  document.getElementById('modeLabel').innerHTML =
+    `<span class="mode-label ${modeInfo.cls}">${modeInfo.label}</span>`;
+
+  // 統計
+  const total   = rows.length;
+  const invalid = rows.filter(r => r.checksumFail).length;
+
+  let passCount, failCount, errCount;
+  if (mode === 'local') {
+    passCount = rows.filter(r => !r.checksumFail).length;
+    failCount = invalid;
+    errCount  = 0;
+  } else if (mode === 'all') {
+    passCount = rows.filter(r => !r.checksumFail && (r.fia?.exists || r.gcis?.exists)).length;
+    failCount = rows.filter(r => !r.checksumFail && !r.fia?.exists && !r.gcis?.exists && !r.fia?.error && !r.gcis?.error).length;
+    errCount  = rows.filter(r => !r.checksumFail && (r.fia?.error || r.gcis?.error)).length;
+  } else {
+    passCount = rows.filter(r => r.exists === true).length;
+    failCount = rows.filter(r => r.exists === false && !r.checksumFail && !r.error).length;
+    errCount  = rows.filter(r => r.error).length;
+  }
+
+  document.getElementById('summaryPills').innerHTML = `
+    <span class="pill pill-total">共 ${total} 筆</span>
+    ${passCount  > 0 ? `<span class="pill pill-pass">存在 ${passCount}</span>` : ''}
+    ${failCount  > 0 ? `<span class="pill pill-fail">未登記 ${failCount}</span>` : ''}
+    ${invalid    > 0 ? `<span class="pill pill-fail">格式錯誤 ${invalid}</span>` : ''}
+    ${errCount   > 0 ? `<span class="pill pill-error">查詢失敗 ${errCount}</span>` : ''}
+  `;
+
+  document.getElementById('emptyState').style.display = 'none';
+  const table = document.getElementById('resultsTable');
+  table.style.display = 'table';
+
+  // Header
+  const head = document.getElementById('tableHead');
+  if (mode === 'local') {
+    head.innerHTML = `<tr><th>#</th><th>統一編號</th><th>本地檢查碼</th></tr>`;
+  } else if (mode === 'fia') {
+    head.innerHTML = `<tr><th>#</th><th>統一編號</th><th>本地檢查碼</th><th>FIA 結果</th><th>公司資訊</th></tr>`;
+  } else if (mode === 'gcis') {
+    head.innerHTML = `<tr><th>#</th><th>統一編號</th><th>本地檢查碼</th><th>GCIS 結果</th><th>登記型態</th></tr>`;
+  } else {
+    // all
+    head.innerHTML = `<tr>
+      <th>#</th><th>統一編號</th><th>本地檢查碼</th>
+      <th class="sep">FIA 結果</th><th>公司資訊</th>
+      <th class="sep">GCIS 結果</th><th>登記型態</th>
+    </tr>`;
+  }
+
+  // Body
+  const body = document.getElementById('tableBody');
+  body.innerHTML = rows.map((r, i) => buildRow(mode, r, i + 1)).join('');
+}
+
+function buildRow(mode, r, idx) {
+  const checksumBadge = r.checksumFail
+    ? `<span class="badge badge-invalid">格式錯誤</span>`
+    : `<span class="badge badge-valid">合法</span>`;
+  const na = `<span class="badge badge-na">未查詢</span>`;
+
+  if (mode === 'local') {
+    return `<tr>
+      <td>${idx}</td>
+      <td><span class="ban-code">${r.ban}</span></td>
+      <td>${checksumBadge}</td>
+    </tr>`;
+  }
+
+  if (mode === 'all') {
+    const [fiaCell, fiaInfo] = buildFIAcells(r.checksumFail ? null : r.fia, r.checksumFail);
+    const [gcisCell, gcisInfo] = buildGCIScells(r.checksumFail ? null : r.gcis, r.checksumFail);
+    return `<tr>
+      <td>${idx}</td>
+      <td><span class="ban-code">${r.ban}</span></td>
+      <td>${checksumBadge}</td>
+      <td class="sep">${fiaCell}</td><td>${fiaInfo}</td>
+      <td class="sep">${gcisCell}</td><td>${gcisInfo}</td>
+    </tr>`;
+  }
+
+  // fia / gcis single mode
+  if (r.checksumFail) {
+    return `<tr>
+      <td>${idx}</td>
+      <td><span class="ban-code">${r.ban}</span></td>
+      <td>${checksumBadge}</td>
+      <td>${na}</td><td>—</td>
+    </tr>`;
+  }
+
+  if (mode === 'fia') {
+    const [cell, info] = buildFIAcells(r, false);
+    return `<tr>
+      <td>${idx}</td>
+      <td><span class="ban-code">${r.ban}</span></td>
+      <td>${checksumBadge}</td>
+      <td>${cell}</td><td>${info}</td>
+    </tr>`;
+  } else {
+    const [cell, info] = buildGCIScells(r, false);
+    return `<tr>
+      <td>${idx}</td>
+      <td><span class="ban-code">${r.ban}</span></td>
+      <td>${checksumBadge}</td>
+      <td>${cell}</td><td>${info}</td>
+    </tr>`;
+  }
+}
+
+function buildFIAcells(r, isChecksumFail) {
+  const na = `<span class="badge badge-na">未查詢</span>`;
+  if (isChecksumFail || !r) return [na, '—'];
+  if (r.error) return [`<span class="badge badge-error">查詢失敗</span>`, `<span class="meta">${r.error}</span>`];
+  const badge = r.exists
+    ? `<span class="badge badge-valid">存在</span>`
+    : `<span class="badge badge-invalid">未登記</span>`;
+  let info = '—';
+  if (r.exists && r.data) {
+    info = `<div class="company-name">${r.data.name || '—'}</div>
+      <div class="meta">${[r.data.type, r.data.industry].filter(Boolean).join(' · ')}</div>
+      ${r.data.address  ? `<div class="meta">📍 ${r.data.address}</div>`       : ''}
+      ${r.data.setupDate ? `<div class="meta">設立：${r.data.setupDate}</div>` : ''}`;
+  }
+  return [badge, info];
+}
+
+function buildGCIScells(r, isChecksumFail) {
+  const na = `<span class="badge badge-na">未查詢</span>`;
+  if (isChecksumFail || !r) return [na, '—'];
+  if (r.error) return [`<span class="badge badge-error">查詢失敗</span>`, `<span class="meta">${r.error}</span>`];
+  const badge = r.exists
+    ? `<span class="badge badge-valid">存在</span>`
+    : `<span class="badge badge-invalid">未登記</span>`;
+  const info = (r.exists && r.registeredTypes?.length)
+    ? r.registeredTypes.join('、')
+    : '—';
+  return [badge, info];
+}
+
+// ── 主要驗證流程 ──────────────────────────────
+async function runValidation(mode) {
+  if (running || ubns.length === 0) return;
+  running = true;
+  setBtnsDisabled(true);
+
+  const unique = [...new Set(ubns.map(u => String(u).padStart(8, '0')))];
+  const checksumPass = unique.filter(validateChecksum);
+  const checksumFail = unique.filter(u => !validateChecksum(u));
+  const failRows = checksumFail.map(ban => ({ ban, checksumFail: true }));
+
+  const modeLabel = { local: '本地檢查碼', fia: '財政部 FIA API', gcis: '商工 GCIS API', all: '全部查詢' }[mode];
+  setStatus(`正在執行 ${modeLabel} 驗證…`, true);
+
+  // ── 本地 ──
+  if (mode === 'local') {
+    const rows = unique
+      .map(ban => ({ ban, checksumFail: !validateChecksum(ban) }))
+      .sort((a, b) => a.ban.localeCompare(b.ban));
+    const pass = rows.filter(r => !r.checksumFail).length;
+    setStatus(`本地驗算完成：${pass} / ${unique.length} 筆格式合法`);
+    renderResults('local', rows);
+    running = false; setBtnsDisabled(false); return;
+  }
+
+  // ── 單一 API ──
+  if (mode === 'fia' || mode === 'gcis') {
+    const apiFn = mode === 'fia'
+      ? ban => checkByFIA(ban).then(r => ({ ban, checksumFail: false, ...r }))
+      : ban => checkByGCIS(ban).then(r => ({ ban, checksumFail: false, ...r }));
+
+    const apiResults = await processBatch(checksumPass, apiFn, {
+      concurrency: 5, delayMs: 200,
+      onProgress(n, t) { setStatus(`查詢中… ${n} / ${t} 筆`, true); },
+    });
+
+    const passRows = checksumPass.map((ban, i) => {
+      const r = apiResults[i];
+      return r.ok ? r : { ban, checksumFail: false, exists: null, error: r.error };
+    });
+
+    const allRows = [...failRows, ...passRows].sort((a, b) => a.ban.localeCompare(b.ban));
+    const existCount = allRows.filter(r => r.exists === true).length;
+    setStatus(`${modeLabel} 查詢完成：${existCount} / ${unique.length} 筆 UBN 登記有效`);
+    renderResults(mode, allRows);
+    running = false; setBtnsDisabled(false); return;
+  }
+
+  // ── 全部查詢 ──
+  if (mode === 'all') {
+    const allFn = async (ban) => {
+      const [fiaRes, gcisRes] = await Promise.allSettled([
+        checkByFIA(ban),
+        checkByGCIS(ban),
+      ]);
+      return {
+        ban,
+        checksumFail: false,
+        fia:  fiaRes.status  === 'fulfilled' ? fiaRes.value  : { error: fiaRes.reason?.message  ?? '未知錯誤' },
+        gcis: gcisRes.status === 'fulfilled' ? gcisRes.value : { error: gcisRes.reason?.message ?? '未知錯誤' },
+      };
+    };
+
+    const apiResults = await processBatch(checksumPass, allFn, {
+      concurrency: 3, delayMs: 300,
+      onProgress(n, t) { setStatus(`全部查詢中… ${n} / ${t} 筆`, true); },
+    });
+
+    const passRows = checksumPass.map((ban, i) => {
+      const r = apiResults[i];
+      return r.ok ? r : { ban, checksumFail: false, fia: { error: r.error }, gcis: { error: r.error } };
+    });
+
+    const allRows = [...failRows, ...passRows].sort((a, b) => a.ban.localeCompare(b.ban));
+    const existCount = allRows.filter(r => r.fia?.exists || r.gcis?.exists).length;
+    setStatus(`全部查詢完成：${existCount} / ${unique.length} 筆 UBN 任一來源登記有效`);
+    renderResults('all', allRows);
+    running = false; setBtnsDisabled(false); return;
+  }
+}
+
+// ── 檔案上傳 ──────────────────────────────────
+function handleFile(file) {
+  if (!file || !file.name.endsWith('.csv')) {
+    setStatus('請選擇 .csv 格式的檔案');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    ubns = parseCSV(e.target.result);
+    const unique = [...new Set(ubns)];
+    document.getElementById('fileInfo').textContent =
+      `已載入：${file.name}　共 ${ubns.length} 筆（去重後 ${unique.length} 筆）`;
+    setStatus(`已載入 ${unique.length} 筆統一編號，請選擇驗證方式。`);
+    setBtnsDisabled(false);
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('csvFile');
+
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  handleFile(e.dataTransfer.files[0]);
+});
+</script>
+</body>
+</html>

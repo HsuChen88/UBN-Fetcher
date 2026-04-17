@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:eip.fia.gov.tw)",
+      "WebFetch(domain:data.gcis.nat.gov.tw)",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/22099131\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://eip.fia.gov.tw/OAI/api/businessRegistration/22099131\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" \"https://eip.fia.gov.tw/OAI/api/businessRegistration/11085225\")",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/11085225\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('businessNm',''\\), d.get\\('businessType',''\\)\\)\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" \"https://eip.fia.gov.tw/OAI/api/businessRegistration/00000000\")",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/00000000\")",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" \"https://eip.fia.gov.tw/OAI/api/businessRegistration/12345678\")",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/12345678\")",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?$format=json&No=22099131')",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/9D17AE0D-09B5-4732-A8F4-81ADED04B679?$format=json&Business_Accounting_NO=22099131')",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/16090921\")",
+      "Bash(curl -sv 'https://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?$format=json&$filter=No+eq+22099131&$skip=0&$top=50')",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/9D17AE0D-09B5-4732-A8F4-81ADED04B679?$format=json&$filter=Business_Accounting_NO+eq+22099131&$skip=0&$top=50')",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?$format=json&$filter=No+eq+00000000&$skip=0&$top=50')",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/673F0FC0-B3A7-429F-9041-E9866836B66D?$format=json&$filter=No+eq+12345678&$skip=0&$top=50')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Name:', d.get\\('businessNm'\\)\\); print\\('Type:', d.get\\('businessType'\\)\\); print\\('Active:', bool\\(d.get\\('businessNm'\\)\\)\\)\")",
+      "Bash(curl -s -o /tmp/resp.txt -w \"%{http_code}\" \"https://eip.fia.gov.tw/OAI/api/businessRegistration/00000000\")",
+      "Read(//tmp/**)",
+      "Bash(node poc.mjs)",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/855A3C87-003A-4930-AA4B-2F4130D713DC?$format=json&$filter=President_No+eq+00000000&$skip=0&$top=5')",
+      "Bash(curl -s 'https://data.gcis.nat.gov.tw/od/data/api/855A3C87-003A-4930-AA4B-2F4130D713DC?$format=json&$filter=President_No+eq+99999999&$skip=0&$top=5')",
+      "Bash(curl -s \"https://eip.fia.gov.tw/OAI/api/businessRegistration/96979933\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('businessNm',''\\),d.get\\('businessType',''\\)\\)\")"
+    ]
+  }
+}

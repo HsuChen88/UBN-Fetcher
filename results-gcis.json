@@ -1,0 +1,633 @@
+[
+  {
+    "ban": "00000000",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "商業"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "04322046",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "05159128",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "16506096",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "17432208",
+    "checksumValid": true,
+    "exists": false,
+    "source": "GCIS",
+    "registeredTypes": [],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "22480876",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "22671299",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "23357868",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "27231258",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司",
+      "分公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "34051920",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "43671990",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "45002931",
+    "checksumValid": true,
+    "exists": false,
+    "source": "GCIS",
+    "registeredTypes": [],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "59209167",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "60704696",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "70758512",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "70785139",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "83923347",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司",
+      "分公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "86123213",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司",
+      "分公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "86519539",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "96811246",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "97160544",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "97172540",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "97440546",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "98641556",
+    "checksumValid": true,
+    "exists": true,
+    "source": "GCIS",
+    "registeredTypes": [
+      "公司"
+    ],
+    "raw": [
+      {
+        "Year": "115",
+        "exist": "Y",
+        "TYPE": "公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "分公司"
+      },
+      {
+        "Year": "115",
+        "exist": "N",
+        "TYPE": "商業"
+      }
+    ]
+  },
+  {
+    "ban": "99999999",
+    "checksumValid": false,
+    "exists": false,
+    "source": "GCIS",
+    "registeredTypes": [],
+    "raw": []
+  }
+]
